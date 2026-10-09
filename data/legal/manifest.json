@@ -1,0 +1,13 @@
+[
+  {
+    "source_id": "rag_starter_corpus",
+    "type": "CORPUS",
+    "title": "India Case-Record Integrity and Digital Evidence Law",
+    "short": "Starter Corpus",
+    "citation": "Curated legal-information starter pack",
+    "file": "raw/rag_starter_corpus.pdf",
+    "downloaded_at": "2026-10-09T16:25:00+05:30",
+    "sha256": "unknown",
+    "language": "en"
+  }
+]

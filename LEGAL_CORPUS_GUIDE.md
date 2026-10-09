@@ -205,23 +205,25 @@ Set `verified` to `yes` only after checking the row yourself.
 ## Step 6: Ingestion (`scripts/legal/ingest-legal.ts`)
 
 ### Table
-The legal corpus is public, so no encryption or blind index is needed. Normal Postgres full-text search is fine here.
+To ensure a total encrypted environment for the RAG, the legal corpus also uses AES-256-GCM encryption and blind keyword indexing, exactly like the case records.
 ```sql
 create table legal_chunks (
   id            text primary key,          -- e.g. BNS-304, SC-KHOTKAR-2020-p61-63
   source_id     text not null,
   type          text not null,             -- ACT | JUDGMENT | HEADNOTE | MAPPING
   short_ref     text not null,             -- "BNS §304"
-  title         text,
-  text          text not null,
-  tsv           tsvector generated always as (to_tsvector('simple', coalesce(short_ref,'') || ' ' || coalesce(title,'') || ' ' || text)) stored,
+  title_enc     bytea,
+  text_enc      bytea not null,
+  text_iv       bytea not null,
+  text_tag      bytea not null,
+  kw_tokens     text[] not null,           -- HMAC blind index tokens
   embedding     vector(768) not null,
   source_url    text not null,
   source_sha256 text not null,
   meta          jsonb default '{}'
 );
 create index on legal_chunks using hnsw (embedding vector_cosine_ops);
-create index on legal_chunks using gin (tsv);
+create index on legal_chunks using gin (kw_tokens);
 alter table legal_chunks enable row level security;
 create policy "legal corpus readable by all signed-in users"
   on legal_chunks for select to authenticated using (true);

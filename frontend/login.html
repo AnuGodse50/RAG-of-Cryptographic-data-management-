@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure DMS - Login</title>
+    <link rel="stylesheet" href="shared/base.css">
+    <script src="shared/auth-guard.js"></script>
+    <style>
+        body { display: flex; align-items: center; justify-content: center; height: 100vh; background-color: var(--color-navy); margin: 0;}
+        .login-card { width: 100%; max-width: 400px; text-align: center; }
+        .login-card h1 { color: var(--color-gold); margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="card login-card">
+        <h1>AEGIS-VERITAS</h1>
+        <p style="margin-bottom: 1rem;">Secure Document Management System</p>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Officer ID / Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="otp" placeholder="2FA OTP (e.g. 123456)" required>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Secure Login</button>
+        </form>
+    </div>
+    <script src="shared/ui.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            localStorage.setItem('access_token', 'mock_jwt_token_123');
+            UI.showToast('Login successful!', 'success');
+            setTimeout(() => window.location.href = 'cases.html', 500);
+        });
+    </script>
+</body>
+</html>

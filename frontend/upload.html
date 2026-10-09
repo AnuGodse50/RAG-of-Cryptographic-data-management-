@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Evidence - Secure DMS</title>
+    <link rel="stylesheet" href="shared/base.css">
+    <script src="shared/auth-guard.js"></script>
+    <style>
+        .dropzone { border: 2px dashed var(--color-navy); border-radius: 8px; padding: 3rem; text-align: center; margin: 1rem 0; cursor: pointer; transition: background 0.2s;}
+        .dropzone:hover { background-color: var(--color-gray); }
+        .hash-display { background: var(--color-dark); color: var(--color-success); padding: 1rem; border-radius: 4px; font-family: monospace; display: none; margin-top: 1rem; word-break: break-all;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Secure Evidence Ingestion</h2>
+        <div class="card" style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <select id="docType">
+                <option value="FIR">FIR</option>
+                <option value="WITNESS_STATEMENT">Witness Statement</option>
+                <option value="FORENSIC_REPORT">Forensic Report</option>
+            </select>
+            
+            <div class="dropzone" id="dropzone">
+                <p>Drag & Drop file here, or click to select</p>
+                <input type="file" id="fileInput" style="display: none;">
+            </div>
+            
+            <button class="btn btn-primary" id="uploadBtn" style="width: 100%;">Cryptographically Seal & Upload</button>
+            
+            <div class="hash-display" id="hashDisplay"></div>
+        </div>
+    </div>
+    <script src="shared/ui.js"></script>
+    <script src="shared/api.js"></script>
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        
+        dropzone.addEventListener('click', () => fileInput.click());
+        
+        document.getElementById('uploadBtn').addEventListener('click', async () => {
+            if(!fileInput.files.length) return UI.showToast('Select a file first', 'warning');
+            UI.showToast('Encrypting and Uploading...', 'success');
+            
+            // Mock hash generation
+            setTimeout(() => {
+                const hash = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'; 
+                const display = document.getElementById('hashDisplay');
+                display.style.display = 'block';
+                display.innerHTML = '<strong>Sealed SHA-256:</strong><br>' + hash;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

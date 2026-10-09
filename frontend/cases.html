@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Secure DMS</title>
+    <link rel="stylesheet" href="shared/base.css">
+    <script src="shared/auth-guard.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Active Investigations Dashboard</h2>
+            <button class="btn btn-primary" onclick="document.getElementById('firModal').classList.add('active')">+ Register FIR</button>
+        </div>
+        
+        <input type="text" placeholder="Search FIRs, Sections, or Officers (pgvector search)...">
+        
+        <div class="grid grid-3" id="caseList">
+            <div class="card" style="cursor: pointer;" onclick="window.location.href='case-detail.html?id=1'">
+                <h3>FIR #2026-089</h3>
+                <p><strong>Offence:</strong> Snatching (BNS §304)</p>
+                <p><strong>Status:</strong> Active Investigation</p>
+                <span style="display:inline-block; margin-top:0.5rem; background:var(--color-navy); color:white; padding:2px 8px; border-radius:12px; font-size:0.8rem;">Police Role</span>
+            </div>
+            <div class="card" style="cursor: pointer;" onclick="window.location.href='case-detail.html?id=2'">
+                <h3>FIR #2026-092</h3>
+                <p><strong>Offence:</strong> Cheating (BNS §318)</p>
+                <p><strong>Status:</strong> Evidence Collected</p>
+                <span style="display:inline-block; margin-top:0.5rem; background:var(--color-navy); color:white; padding:2px 8px; border-radius:12px; font-size:0.8rem;">Police Role</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIR Modal -->
+    <div class="modal" id="firModal">
+        <div class="modal-content">
+            <h2>Register New FIR</h2>
+            <input type="text" placeholder="Incident Title" style="margin-top: 1rem;">
+            <textarea placeholder="Incident Details..." rows="4"></textarea>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button class="btn" onclick="document.getElementById('firModal').classList.remove('active')">Cancel</button>
+                <button class="btn btn-primary" onclick="UI.showToast('FIR Registered. SHA-256 sealed.', 'success'); document.getElementById('firModal').classList.remove('active');">Submit</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="shared/ui.js"></script>
+    <script src="shared/api.js"></script>
+</body>
+</html>
